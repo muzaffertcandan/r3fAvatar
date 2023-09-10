@@ -12,10 +12,10 @@ import { act, useFrame } from "@react-three/fiber";
 export function Avatar(props) {
   const { animation } = props;
 
-  const { headFollow, cursorFollow, wireframe} = useControls({
+  const { headFollow, cursorFollow, wireframe } = useControls({
     headFollow: false,
     cursorFollow: false,
-    wireframe: false
+    wireframe: false,
   });
   const group = useRef();
   const { nodes, materials } = useGLTF("models/myAvatar.glb");
@@ -24,16 +24,14 @@ export function Avatar(props) {
   const { animations: standingAnimation } = useFBX(
     "animations/Standing Idle.fbx"
   );
-  const { animations: fallingAnimation } = useFBX(
-    "animations/Falling.fbx"
-  );
+  const { animations: fallingAnimation } = useFBX("animations/Falling.fbx");
   console.log(typingAnimation);
 
   typingAnimation[0].name = "Typing";
   standingAnimation[0].name = "Standing";
   fallingAnimation[0].name = "Falling";
 
-  const {actions} = useAnimations(
+  const { actions } = useAnimations(
     [typingAnimation[0], standingAnimation[0], fallingAnimation[0]],
     group
   );
@@ -51,16 +49,15 @@ export function Avatar(props) {
   useEffect(() => {
     actions[animation].reset().fadeIn(0.5).play();
     return () => {
-      actions[animation].reset().fadeOut(0.5)
+      actions[animation].reset().fadeOut(0.5);
     };
   }, [animation]);
 
-  useEffect(()=>{
-    Object.values(materials).forEach((material)=>{
+  useEffect(() => {
+    Object.values(materials).forEach((material) => {
       material.wireframe = wireframe;
-    })
-  },[wireframe])
-
+    });
+  }, [wireframe]);
 
   return (
     <group {...props} ref={group} dispose={null}>
