@@ -10,6 +10,7 @@ import { useControls } from "leva";
 import { act, useFrame } from "@react-three/fiber";
 
 export function Avatar(props) {
+  console.log("props: ", props);
   const { animation } = props;
 
   const { headFollow, cursorFollow, wireframe } = useControls({
@@ -36,6 +37,15 @@ export function Avatar(props) {
     group
   );
 
+  //animation play
+  useEffect(() => {
+    actions[animation].reset().fadeIn(0.5).play();
+    return () => {
+      actions[animation].reset().fadeOut(0.5);
+    };
+  }, [animation]);
+
+  // head follow
   useFrame((state) => {
     if (headFollow) {
       group.current.getObjectByName("Head").lookAt(state.camera.position);
@@ -45,14 +55,7 @@ export function Avatar(props) {
       group.current.getObjectByName("Spine2").lookAt(target);
     }
   });
-
-  useEffect(() => {
-    actions[animation].reset().fadeIn(0.5).play();
-    return () => {
-      actions[animation].reset().fadeOut(0.5);
-    };
-  }, [animation]);
-
+  // wireframe
   useEffect(() => {
     Object.values(materials).forEach((material) => {
       material.wireframe = wireframe;
