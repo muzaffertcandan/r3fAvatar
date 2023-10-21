@@ -1,4 +1,9 @@
-import { Environment, OrbitControls, Sky, ContactShadows } from "@react-three/drei";
+import {
+  Environment,
+  OrbitControls,
+  Sky,
+  ContactShadows,
+} from "@react-three/drei";
 import { Avatar } from "./Avatar";
 import { useControls } from "leva";
 
